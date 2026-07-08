@@ -1,0 +1,64 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  
+  /* Redefine core colors as hex to support html2canvas which doesn't support oklch */
+  --color-slate-50: rgb(248, 250, 252);
+  --color-slate-100: rgb(241, 245, 249);
+  --color-slate-200: rgb(226, 232, 240);
+  --color-slate-300: rgb(203, 213, 225);
+  --color-slate-400: rgb(148, 163, 184);
+  --color-slate-500: rgb(100, 116, 139);
+  --color-slate-600: rgb(71, 85, 105);
+  --color-slate-700: rgb(51, 65, 85);
+  --color-slate-800: rgb(30, 41, 59);
+  --color-slate-900: rgb(15, 23, 42);
+  --color-slate-950: rgb(2, 6, 23);
+
+  --color-amber-50: rgb(255, 251, 235);
+  --color-amber-100: rgb(254, 243, 199);
+  --color-amber-200: rgb(253, 230, 138);
+  --color-amber-300: rgb(252, 211, 77);
+  --color-amber-400: rgb(251, 191, 36);
+  --color-amber-500: rgb(245, 158, 11);
+  --color-amber-600: rgb(217, 119, 6);
+  --color-amber-700: rgb(180, 83, 9);
+  --color-amber-800: rgb(146, 64, 14);
+  --color-amber-900: rgb(120, 53, 15);
+  --color-amber-950: rgb(69, 26, 3);
+
+  --color-blue-50: rgb(239, 246, 255);
+  --color-blue-100: rgb(219, 234, 254);
+  --color-blue-200: rgb(191, 219, 254);
+  --color-blue-300: rgb(147, 197, 253);
+  --color-blue-400: rgb(96, 165, 250);
+  --color-blue-500: rgb(59, 130, 246);
+  --color-blue-600: rgb(37, 99, 235);
+  --color-blue-700: rgb(29, 78, 216);
+  --color-blue-800: rgb(30, 64, 175);
+  --color-blue-900: rgb(30, 58, 138);
+  --color-blue-950: rgb(23, 37, 84);
+
+  --color-rose-50: rgb(255, 241, 242);
+  --color-rose-100: rgb(255, 228, 230);
+  --color-rose-200: rgb(254, 205, 211);
+  --color-rose-500: rgb(244, 63, 94);
+  --color-rose-600: rgb(225, 29, 72);
+
+  --color-emerald-50: rgb(236, 253, 245);
+  --color-emerald-100: rgb(209, 250, 229);
+  --color-emerald-500: rgb(16, 185, 129);
+  --color-emerald-600: rgb(5, 150, 105);
+
+  --color-yellow-100: rgb(254, 249, 195);
+  --color-yellow-500: rgb(234, 179, 8);
+
+  --color-white: rgb(255, 255, 255);
+  --color-black: rgb(0, 0, 0);
+  --color-transparent: transparent;
+}
+
+body {
+  @apply bg-slate-50 text-slate-900;
+}

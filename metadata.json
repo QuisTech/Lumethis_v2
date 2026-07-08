@@ -1,0 +1,6 @@
+{
+  "name": "Remix: Lumethis",
+  "description": "Lumethis: A comprehensive Learning \u0026 Development management dashboard designed for Group-level oversight. Features AI-powered curriculum generation, budget tracking, asset management, and multi-subsidiary analytics.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
