@@ -1,5 +1,5 @@
 import { GoogleGenAI, Type } from "@google/genai";
-import { AIPlanResponse, SurveyPlan } from "../types";
+import { AIPlanResponse, SurveyPlan, CourseGenerationResponse } from "../types";
 
 const getAIClient = () => {
   const apiKey = process.env.GEMINI_API_KEY;
@@ -24,30 +24,33 @@ export const generateTrainingStrategy = async (
       frameworkDirective = `You MUST use the following specific framework for this curriculum: "${frameworkId}".`;
     } else {
       frameworkDirective = `
-        Automatically select the best framework for this training from the following 6 options based on the Topic and Target Audience:
-        1. "SFIA Foundation" (Enterprise Skills: technology, career paths, and general business roles).
-        2. "Korn Ferry" (Leadership: behavioral, executive, and management competencies).
-        3. "National Initiative for Cybersecurity Education (NICE)" (Cybersecurity: SOC analysts, security engineers, incident response).
-        4. "ISACA" (IT Governance: risk, compliance, COBIT, and information security).
-        5. "Project Management Institute (PMI)" (Project Delivery: drone deployments, agile/waterfall client projects).
-        6. "National Aviation Regulations and Operational Standards" (Aviation Operations: drone/UAS pilots, flight operations, maintenance, safety).
+        Automatically select the best framework or framework combination for this training from the following EIB Group hybrid portfolio based on the Topic, Target Audience, and Subsidiary context:
+        1. "Korn Ferry Leadership Architect" (Global Leadership Core: behavioral, executive, and management competencies across all subsidiaries).
+        2. "PMI Talent Triangle / PMBOK" (Global Project Delivery Core: project management, lifecycle coordination, and governance).
+        3. "Lean Six Sigma (LSS)" (Manufacturing & Operational Core: process improvement, defect reduction, Yellow/Green/Black Belt tracks).
+        4. "IATF 16949 / ISO 9001" (Automotive Quality Core: strict compliance, auditing, and competency controls for automotive personnel).
+        5. "NICE Framework" (Cyber Security: Incident analysis, security engineering, digital forensics, and threat response for DCI).
+        6. "Intelligence Tradecraft Core Competencies" (Intelligence Core: intelligence collection, counterintelligence, clandestine tradecraft, and analysis).
+        7. "Logical Framework Approach (LogFrame) / Theory of Change" (Non-profit NGO Core: Monitoring & Evaluation (M&E), donor reporting, social impact metrics).
+        8. "ScreenSkills Creative Skillset" (Media & Broadcasting Core: radio presenting, audio engineering, audience management, transmission safety).
+        9. "SFIA (Skills Framework for the Information Age)" (IT & Software Engineering Core: professional competencies, engineering levels 1-7, and digital capability).
       `;
     }
 
     const prompt = `
-      Act as a Group Learning & Development Manager at EIB Group.
-      Design a structured training program for: "${topic}".
+      Act as a Group Learning & Development Director at EIB Group.
+      Design a highly professional and tailored training program for: "${topic}".
       Target Audience: ${targetAudience}.
       Desired Duration: ${duration}.
       
       ${frameworkDirective}
       
-      Return a JSON object with a catchy Title, a brief Overview, the exact frameworkUsed (e.g. "Korn Ferry" or "SFIA Foundation"), and a list of Modules.
+      Return a JSON object with a catchy Title, a brief Overview, the exact frameworkUsed (e.g. "NICE Framework" or "Lean Six Sigma (LSS)"), and a list of Modules.
       For each module:
       1. Provide a name.
       2. List 2-3 learning objectives.
       3. Estimated duration.
-      4. Assign the target level, competency, or regulation standard under the chosen framework as 'levelOrStandard' (e.g., "Korn Ferry Competency: Courage", "SFIA Level 3: Apply", "NICE competency: Security Provision", "PMI Performance Domain: Stakeholder", or "Aviation Regulation: Part 107 / CAA Rule Category: Specific").
+      4. Assign the target level, competency, or regulation standard under the chosen framework as 'levelOrStandard' (e.g., "Korn Ferry Competency: Courage", "NICE Specialty: Digital Forensics (AN-DFN)", "Lean Six Sigma: Green Belt Certification", "LogFrame Monitoring & Evaluation", or "PMI Performance Domain: Delivery").
     `;
 
     const response = await ai.models.generateContent({
@@ -107,13 +110,16 @@ export const analyzeSkillGap = async (
           frameworkDirective = `Conduct this Gap Analysis strictly using the "${frameworkId}" framework.`;
         } else {
           frameworkDirective = `
-            Automatically select the most appropriate framework from the following 6 options to conduct this analysis based on the role and goal:
-            1. "SFIA Foundation" (Enterprise Skills: technology, career paths, and general business roles)
-            2. "Korn Ferry" (Leadership: leadership, behavioral, executive, and management competencies)
-            3. "National Initiative for Cybersecurity Education (NICE)" (Cybersecurity: SOC analysts, security engineers, incident response, etc.)
-            4. "ISACA" (IT Governance: governance, risk, compliance, COBIT, and information security)
-            5. "Project Management Institute (PMI)" (Project Delivery: project management, agile/waterfall coordination, drone deployment projects)
-            6. "National Aviation Regulations and Operational Standards" (Aviation Operations: drone/UAS pilots, flight operations, air safety, and maintenance)
+            Automatically select the most appropriate framework from the following EIB Group hybrid portfolio to conduct this analysis based on the role and goal:
+            1. "Korn Ferry Leadership Architect" (Global Leadership Core: leadership, behavioral, and management competencies for directors/executives).
+            2. "PMI Talent Triangle / PMBOK" (Global Project Delivery Core: project management, planning, and program execution).
+            3. "Lean Six Sigma (LSS)" (Manufacturing Operations: defect reduction, process efficiency, and quality audits).
+            4. "IATF 16949 / ISO 9001" (Automotive Quality Standards: QA protocols and manufacturing competency).
+            5. "NICE Framework" (Cybersecurity & Digital Forensics: SOC analysis, incident containment, threat hunting).
+            6. "Intelligence Tradecraft Core Competencies" (Intelligence Core: counterintelligence, analysis, and active operations tradecraft).
+            7. "Logical Framework Approach (LogFrame) / Theory of Change" (Non-Profit and NGOs: field assessments, monitoring, and impact indicators).
+            8. "ScreenSkills Creative Skillset" (Media and Broadcast: audience acquisition, on-air presenting, sound engineering, delay panels).
+            9. "SFIA (Skills Framework for the Information Age)" (IT, Digital & Software Engineering: professional competencies, software development levels 1-7).
           `;
         }
 
@@ -241,5 +247,112 @@ export const robustifyReport = async (
   } catch (error) {
     console.error("Error robustifying report:", error);
     return shallowReport;
+  }
+};
+
+export const generateCourseSyllabus = async (
+  title: string,
+  description: string,
+  category: string,
+  level: string,
+  format: string,
+  duration: number,
+  targetSubsidiaries: string,
+  isStrategic: boolean,
+  videoUrl?: string,
+  thumbnailUrl?: string
+): Promise<CourseGenerationResponse | null> => {
+  try {
+    const ai = getAIClient();
+
+    const prompt = `
+      Act as a Group Learning & Development Director at EIB Group.
+      Design an exhaustive, custom-tailored 5-lesson course syllabus and a 10-question customized quiz based on the following input:
+      
+      Course Title: "${title}"
+      Description: "${description}"
+      Category: "${category}"
+      Level: "${level}"
+      Format: "${format}"
+      Duration: "${duration} Hours"
+      Target Subsidiaries: "${targetSubsidiaries}"
+      Strategic Briefing: "${isStrategic ? 'Yes (Strict OPSEC, hide from public catalogs)' : 'No (Public L&D catalog)'}"
+
+      You MUST align the lessons and quiz questions to the appropriate EIB Group blended framework based on the subsidiary context. E.g.:
+      - Cybersecurity -> NICE Framework standards
+      - Manufacturing/Automotive -> Lean Six Sigma (LSS) / IATF 16949
+      - Leadership -> Korn Ferry Leadership Architect
+      - Projects -> PMI PMBOK
+      - Non-Profit -> Logical Framework Approach (LogFrame)
+      - Media -> ScreenSkills
+      - IT, Digital & Software Engineering -> SFIA (Skills Framework for the Information Age) Framework (professional competencies, capability levels 1-7)
+
+      Generate:
+      1. exactly 5 sequential dynamic Lessons. Each lesson should have a "title", a comprehensive paragraph of "content" (be descriptive, providing actual educational content/guidance appropriate for the course category), and a lesson "duration".
+      2. exactly 10 multiple-choice Quiz Questions based on the lesson contents, complete with 4 "options" (A, B, C, D), the exact "correctAnswer" (e.g. "A"), and a detailed "explanation" for why it is correct.
+      3. Recommend the optimal frameworkUsed (e.g. "NICE Framework" or "Lean Six Sigma (LSS)" or "Korn Ferry Leadership Architect").
+
+      Return a clean JSON matching the requested CourseGenerationResponse schema.
+    `;
+
+    const response = await ai.models.generateContent({
+      model: "gemini-3.5-flash",
+      contents: prompt,
+      config: {
+        responseMimeType: "application/json",
+        responseSchema: {
+          type: Type.OBJECT,
+          properties: {
+            title: { type: Type.STRING },
+            description: { type: Type.STRING },
+            category: { type: Type.STRING },
+            level: { type: Type.STRING },
+            format: { type: Type.STRING },
+            duration: { type: Type.STRING },
+            frameworkUsed: { type: Type.STRING, description: "The specific framework selected for alignment (e.g., NICE Framework, Korn Ferry Leadership Architect, Lean Six Sigma)" },
+            targetSubsidiaries: { type: Type.STRING },
+            isStrategic: { type: Type.BOOLEAN },
+            videoUrl: { type: Type.STRING },
+            thumbnailUrl: { type: Type.STRING },
+            lessons: {
+              type: Type.ARRAY,
+              items: {
+                type: Type.OBJECT,
+                properties: {
+                  title: { type: Type.STRING },
+                  content: { type: Type.STRING },
+                  duration: { type: Type.STRING }
+                },
+                required: ["title", "content", "duration"]
+              }
+            },
+            quiz: {
+              type: Type.ARRAY,
+              items: {
+                type: Type.OBJECT,
+                properties: {
+                  question: { type: Type.STRING },
+                  options: {
+                    type: Type.ARRAY,
+                    items: { type: Type.STRING }
+                  },
+                  correctAnswer: { type: Type.STRING },
+                  explanation: { type: Type.STRING }
+                },
+                required: ["question", "options", "correctAnswer", "explanation"]
+              }
+            }
+          },
+          required: ["title", "description", "category", "level", "format", "duration", "frameworkUsed", "targetSubsidiaries", "isStrategic", "lessons", "quiz"]
+        }
+      }
+    });
+
+    const text = response.text;
+    if (!text) return null;
+    return JSON.parse(text) as CourseGenerationResponse;
+  } catch (error) {
+    console.error("Error generating course syllabus:", error);
+    return null;
   }
 };

@@ -1,11 +1,10 @@
 export enum Subsidiary {
-  EIB_HOLDINGS = 'EIB Holdings',
-  TECH_SOLUTIONS = 'Tech Solutions Ltd',
-  LOGISTICS_PRO = 'Logistics Pro',
-  RETAIL_ARM = 'Retail Arm',
-  BRIGHT_FM = 'Bright FM (Broadcast)',
-  BRIECH_UAS = 'Briech UAS (Drone Ops)',
+  EIB_STRATOC = 'EIB Stratoc (Group HQ)',
   LUFTREIBER_AUTO = 'Luftreiber Automotive',
+  BRIECH_UAS = 'Briech UAS (Drone & Aerospace)',
+  DCI_SECURITY = 'DCI (RAW, SAC, PSAP, Intel)',
+  BEF_FOUNDATION = 'BEF (Foundation & Non-Profit)',
+  BRIGHT_FM = 'Bright FM (Media & Broadcasting)',
   BRIECH_ATLANTIC = 'Briech Atlantic (Construction & FM)'
 }
 
@@ -36,6 +35,7 @@ export interface ModuleContent {
   objectives: string[];
   duration?: string;
   keyTopics?: string[];
+  levelOrStandard?: string;
 }
 
 export interface ProgramSubmission {
@@ -116,4 +116,33 @@ export interface SurveyPlan {
   description: string;
   targetAudience: string;
   questions: SurveyQuestion[];
+}
+
+export interface CourseLesson {
+  title: string;
+  content: string;
+  duration: string;
+}
+
+export interface QuizQuestion {
+  question: string;
+  options: string[];
+  correctAnswer: string;
+  explanation: string;
+}
+
+export interface CourseGenerationResponse {
+  title: string;
+  description: string;
+  category: string;
+  level: string;
+  format: string;
+  duration: string;
+  frameworkUsed: string;
+  targetSubsidiaries: string;
+  isStrategic: boolean;
+  videoUrl?: string;
+  thumbnailUrl?: string;
+  lessons: CourseLesson[];
+  quiz: QuizQuestion[];
 }

@@ -141,11 +141,19 @@ const TrainingManager: React.FC<TrainingManagerProps> = ({ user }) => {
                     <span className="bg-slate-100 text-slate-500 w-6 h-6 rounded flex items-center justify-center text-xs mr-3">{idx + 1}</span>
                     {mod.title}
                   </h4>
-                  {mod.duration && (
-                    <span className="text-xs bg-blue-50 text-blue-600 px-2 py-1 rounded font-medium flex items-center">
-                      <Clock size={12} className="mr-1"/> {mod.duration}
-                    </span>
-                  )}
+                  <div className="flex space-x-2 items-center">
+                    {mod.duration && (
+                      <span className="text-xs bg-blue-50 text-blue-600 px-2 py-1 rounded font-medium flex items-center">
+                        <Clock size={12} className="mr-1"/> {mod.duration}
+                      </span>
+                    )}
+                    {mod.levelOrStandard && (
+                      <span className="text-xs bg-amber-50 text-amber-700 px-2.5 py-1 rounded-full border border-amber-200 font-bold flex items-center max-w-xs truncate">
+                        <ShieldCheck size={12} className="mr-1 text-amber-500 flex-shrink-0"/>
+                        <span className="truncate">{mod.levelOrStandard}</span>
+                      </span>
+                    )}
+                  </div>
                 </div>
                 
                 <div className="pl-9 grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
